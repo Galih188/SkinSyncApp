@@ -1,0 +1,8 @@
+Flask
+tensorflow
+Pillow
+numpy
+PyJWT
+Werkzeug
+requests
+Flask-Cors
