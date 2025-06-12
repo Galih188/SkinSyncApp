@@ -10,16 +10,12 @@ class App {
 
   async init() {
     try {
-      // Render navigation
       await this.renderNavigation();
 
-      // Setup routing
       this.setupRouting();
 
-      // Initial page load
       await this.renderPage();
 
-      // Setup navigation events
       this.setupNavigationEvents();
     } catch (error) {
       console.error("Failed to initialize app:", error);
@@ -38,7 +34,6 @@ class App {
   }
 
   setupRouting() {
-    // Handle initial load and hash changes
     window.addEventListener("hashchange", () => this.renderPage());
     window.addEventListener("load", () => this.renderPage());
   }
@@ -48,28 +43,22 @@ class App {
       const url = UrlParser.parseActiveUrlWithCombiner();
       const page = routes[url] || routes["/"];
 
-      // Clear previous page
       if (this.currentPage && this.currentPage.destroy) {
         this.currentPage.destroy();
       }
 
-      // Create new page instance
       this.currentPage = new page();
 
-      // Render page
       const mainContent = document.getElementById("main-content");
       if (mainContent && this.currentPage) {
         mainContent.innerHTML = await this.currentPage.render();
 
-        // Execute post-render logic
         if (this.currentPage.afterRender) {
           await this.currentPage.afterRender();
         }
 
-        // Update active navigation state
         this.updateActiveNavigation(url);
 
-        // Refresh icons
         setTimeout(() => {
           if (typeof feather !== "undefined") {
             feather.replace();
@@ -83,11 +72,9 @@ class App {
   }
 
   updateActiveNavigation(currentUrl) {
-    // Remove all active states
     const navLinks = document.querySelectorAll(".navbar-nav a");
     navLinks.forEach((link) => link.classList.remove("active"));
 
-    // Add active state to current page
     const activeLink = document.querySelector(`[href="#${currentUrl}"]`);
     if (activeLink) {
       activeLink.classList.add("active");
@@ -95,7 +82,6 @@ class App {
   }
 
   setupNavigationEvents() {
-    // Close mobile menu when clicking on navigation links
     const navLinks = document.querySelectorAll(".navbar-nav a");
     const navbarNav = document.querySelector(".navbar-nav");
 
