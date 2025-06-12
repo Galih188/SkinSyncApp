@@ -1,3 +1,5 @@
+import SkinAnalyzer from "../../services/SkinAnalyze";
+
 class AnalyzePresenter {
   constructor({ view }) {
     this._view = view;
@@ -10,8 +12,6 @@ class AnalyzePresenter {
   // Inisialisasi semua listener dari View
   _initListeners() {
     this._view.bindFileUpload((file) => this._handleFileSelect(file));
-    // this._view.bindAnalyzeButtonClick(() => this._handleAnalyzeClick());
-    // this._view.bindResetButtonClick(() => this._handleResetClick());
     this._view.bindCardActions(
       () => this._handleAnalyzeClick(),
       () => this._handleResetClick()
@@ -31,7 +31,6 @@ class AnalyzePresenter {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      // 5MB
       this._view.showNotification(
         "Ukuran file harus kurang dari 5MB.",
         "error"
@@ -49,18 +48,12 @@ class AnalyzePresenter {
 
   // Menangani logika saat tombol analisis diklik
   async _handleAnalyzeClick() {
-    if (!this._selectedFile) {
-      this._view.showNotification(
-        "Silakan pilih gambar terlebih dahulu.",
-        "error"
-      );
-      return;
-    }
-
-    this._view.displayAnalysisLoading();
+    this._view.showLoading();
 
     try {
-      this._analysisResult = await this._performAnalysis();
+      const imageData = await this._readImageAsBase64(this._selectedFile);
+      this._analysisResult = await SkinAnalyzer.analyzeImage(imageData);
+
       this._view.displayAnalysisResult(this._analysisResult);
       this._view.bindResultActions(
         () => this._shareResult(),
@@ -68,11 +61,9 @@ class AnalyzePresenter {
       );
     } catch (error) {
       console.error("Analysis failed:", error);
-      this._view.showNotification(
-        "Analisis gagal. Silakan coba lagi.",
-        "error"
-      );
-      this._handleResetClick(); // Reset UI jika gagal
+      this._view.showError(error.message);
+    } finally {
+      this._view.hideLoading();
     }
   }
 
@@ -83,44 +74,14 @@ class AnalyzePresenter {
     this._view.resetUI();
   }
 
-  async _performAnalysis() {
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API delay
-    const skinTypes = [
-      {
-        type: "Normal",
-        confidence: 85,
-        description:
-          "Kulit normal memiliki keseimbangan minyak dan kelembaban yang baik.",
-        recommendations: [
-          "Gunakan pembersih wajah yang lembut",
-          "Aplikasikan moisturizer setiap hari",
-          "Jangan lupa sunscreen SPF 30+",
-        ],
-      },
-      {
-        type: "Berminyak",
-        confidence: 78,
-        description:
-          "Kulit berminyak memproduksi sebum berlebihan, terutama di T-zone.",
-        recommendations: [
-          "Gunakan pembersih berbahan salisilat acid",
-          "Aplikasikan toner untuk mengontrol minyak",
-          "Pilih moisturizer oil-free",
-        ],
-      },
-      {
-        type: "Kering",
-        confidence: 92,
-        description:
-          "Kulit kering membutuhkan hidrasi ekstra dan perawatan yang melembabkan.",
-        recommendations: [
-          "Gunakan pembersih yang tidak mengeringkan",
-          "Aplikasikan serum hyaluronic acid",
-          "Gunakan moisturizer yang kaya dan menutrisi",
-        ],
-      },
-    ];
-    return skinTypes[Math.floor(Math.random() * skinTypes.length)];
+  // Membaca file sebagai base64
+  _readImageAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 
   // Logika untuk berbagi hasil
