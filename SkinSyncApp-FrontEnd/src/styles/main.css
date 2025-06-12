@@ -505,7 +505,7 @@ body {
 }
 
 .analyze-button:disabled {
-  background: #a5d6a7; /* Warna lebih pudar saat disabled */
+  background: #a5d6a7;
   cursor: not-allowed;
 }
 
@@ -797,21 +797,21 @@ body {
   background: var(--bg);
   padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 0 4px 15px var(--shadow); /* Disesuaikan dengan contact-card */
+  box-shadow: 0 4px 15px var(--shadow);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out,
-    box-shadow 0.3s ease; /* Transisi ditambahkan */
-  opacity: 0; /* Properti animasi */
-  transform: translateY(40px); /* Properti animasi */
+    box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(40px);
 }
 
 .auth-card.visible {
-  opacity: 1; /* Kelas untuk memicu animasi */
+  opacity: 1;
   transform: translateY(0);
 }
 
 .auth-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); /* Disesuaikan dengan contact-card */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .auth-card h3 {
