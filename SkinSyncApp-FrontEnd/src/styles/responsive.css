@@ -87,20 +87,17 @@
     gap: 2rem;
   }
 
-  /* Memastikan kartu upload gambar tidak terlalu lebar dan berada di tengah */
   .container-analyze .card-img {
     width: 100%;
     max-width: 25rem;
     margin: 0 auto;
   }
 
-  /* Selector diperbaiki dari .card-title menjadi .card-result agar sesuai dengan HTML */
   .container-analyze .card-result {
     min-width: unset;
     width: 100%;
   }
 
-  /* Membuat tombol di dalam hasil analisis menjadi lebih rapi */
   .result-actions {
     display: flex;
     flex-direction: column;
