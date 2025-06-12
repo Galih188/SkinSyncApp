@@ -11,7 +11,6 @@ class AnalyzeView {
   }
 
   getTemplate() {
-    // Template HTML tidak berubah
     return `
       <section id="analyze" class="container-analyze">
         <h2><span>Analisis</span> Kulit Wajah Kamu</h2>
@@ -50,8 +49,28 @@ class AnalyzeView {
             </div>
           </div>
         </div>
+
+        <div id="loading-indicator" style="display: none;">
+          <div class="spinner"></div>
+          <p>Menganalisis...</p>
+        </div>
       </section>
     `;
+  }
+
+  // === Metode untuk Inisialisasi Loading ===
+  showLoading() {
+    const loadingIndicator = this._getElement("#loading-indicator");
+    if (loadingIndicator) {
+      loadingIndicator.style.display = "flex";
+    }
+  }
+
+  hideLoading() {
+    const loadingIndicator = this._getElement("#loading-indicator");
+    if (loadingIndicator) {
+      loadingIndicator.style.display = "none";
+    }
   }
 
   // === Metode untuk Inisialisasi Animasi ===
@@ -226,14 +245,6 @@ class AnalyzeView {
     });
   }
 
-  // bindAnalyzeButtonClick(handler) {
-  //   this._getElement("#analyze-btn").addEventListener("click", handler);
-  // }
-
-  // bindResetButtonClick(handler) {
-  //   this._getElement("#reset-btn").addEventListener("click", handler);
-  // }
-
   bindCardActions(analyzeHandler, resetHandler) {
     const cardImg = this._getElement(".card-img");
     if (cardImg) {
@@ -258,6 +269,44 @@ class AnalyzeView {
       if (event.target.closest(".share-btn")) shareHandler();
       if (event.target.closest(".save-btn")) saveHandler();
     });
+  }
+
+  // === Metode untuk error ===
+
+  showError(message) {
+    const resultContainer = this._getElement("#analysis-result");
+    if (!resultContainer) return;
+
+    resultContainer.innerHTML = `
+      <div class="error-message">
+        <div class="error-icon">
+          <i data-feather="alert-triangle"></i>
+        </div>
+        <div class="error-content">
+          <h4>Oops, Analisis Gagal!</h4>
+          <p class="error-details">${message}</p>
+          <p class="error-suggestion">
+            Pastikan koneksi internet Anda stabil dan coba lagi.
+          </p>
+          <button class="reset-button-error">
+            <i data-feather="refresh-cw"></i> Coba Lagi
+          </button>
+        </div>
+      </div>
+    `;
+
+    if (typeof feather !== "undefined") {
+      feather.replace();
+    }
+
+    const resetButton = resultContainer.querySelector(".reset-button-error");
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        this.resetUI();
+      });
+    }
+
+    resultContainer.style.display = "block";
   }
 }
 
