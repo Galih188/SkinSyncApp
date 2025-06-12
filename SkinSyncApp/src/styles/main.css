@@ -285,6 +285,44 @@ body {
 .container-analyze {
   padding: 8rem 7% 6rem;
   background: var(--bg);
+  position: relative;
+}
+
+/* Style loading - Mulai */
+/* Style untuk overlay loading */
+.container-analyze #loading-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 8px;
+}
+/* Style untuk animasi spinner */
+.container-analyze #loading-indicator .spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--border);
+  border-top: 5px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+/* Style loading - Selesai */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .container-analyze h2 {
@@ -569,20 +607,6 @@ body {
   border-radius: 8px;
   border-left: 4px solid var(--accent);
   color: var(--text-dark);
-}
-
-.loading-analysis {
-  text-align: center;
-  padding: 2rem;
-}
-
-.loading-analysis h3 {
-  color: var(--primary);
-  margin: 1rem 0 0.5rem;
-}
-
-.loading-analysis p {
-  color: var(--text-light);
 }
 /* Analyze Section - Selesai */
 
@@ -883,11 +907,6 @@ body {
   z-index: 10000;
 }
 
-.loading-spinner {
-  text-align: center;
-  color: white;
-}
-
 .spinner {
   width: 50px;
   height: 50px;
@@ -922,4 +941,78 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Error message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #fff2f2;
+  border-left: 5px solid var(--danger);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.1);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.error-icon {
+  flex-shrink: 0;
+}
+
+.error-icon i {
+  width: 40px;
+  height: 40px;
+  color: var(--danger);
+}
+
+.error-content {
+  text-align: left;
+}
+
+.error-content h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #a12c2c;
+  font-size: 1.3rem;
+}
+
+.error-content .error-details {
+  color: #b54a4a;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.error-content .error-suggestion {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.reset-button-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  background-color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button-error:hover {
+  background-color: var(--danger);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+.reset-button-error i {
+  width: 16px;
+  height: 16px;
 }
