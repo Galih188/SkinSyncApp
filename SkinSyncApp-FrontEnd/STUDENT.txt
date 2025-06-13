@@ -1,0 +1,1 @@
+APP_URL = https://galih188.github.io/SkinSyncApp-Final
