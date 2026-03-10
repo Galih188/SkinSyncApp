@@ -1,7 +1,3 @@
-Berikut adalah draf `README.md` yang profesional dan komprehensif untuk projek **SkinSync**, disusun berdasarkan struktur kod dan fail yang telah anda berikan:
-
----
-
 # SkinSync: Sistem Analisis Jenis Kulit Wajah Pintar
 
 SkinSync adalah Aplikasi Halaman Tunggal (SPA) yang menggunakan Kecerdasan Buatan (AI) untuk menganalisis jenis kulit wajah pengguna melalui imej yang dimuat naik. Projek ini bertujuan membantu pengguna memahami keadaan kulit mereka—sama ada kering, berminyak, atau normal—serta memberikan cadangan penjagaan kulit yang bersesuaian.
